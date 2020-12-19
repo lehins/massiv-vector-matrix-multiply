@@ -33,13 +33,21 @@ main = do
         , env (pure (vec, mat)) $ \ ~(v, m) ->
             bench "><. (Par)" $
             nfIO ((computeIO =<< (v ><. setComp Par m)) :: IO (Vector S Float))
-        , env (pure (vec, mat)) (
-            bench "multiplyVectorByMatrixS" . nf (uncurry multiplyVectorByMatrixS))
-        , env (pure (vec, setComp Par mat)) (
-            bench "multiplyVectorByMatrixS" . nf (uncurry multiplyVectorByMatrixS))
-        , env (pure (convert vec, convert mat)) (
-            bench "multiplyVectorByMatrixP" . nf (uncurry multiplyVectorByMatrixP))
-        , env (pure (convert vec, convert $ setComp Par mat)) (
-            bench "multiplyVectorByMatrixP" . nf (uncurry multiplyVectorByMatrixP))
+        , env
+            (pure (vec, mat))
+            (bench "multiplyVectorByMatrixS" .
+             nf (uncurry multiplyVectorByMatrixS))
+        , env
+            (pure (vec, setComp Par mat))
+            (bench "multiplyVectorByMatrixS (Par)" .
+             nf (uncurry multiplyVectorByMatrixS))
+        , env
+            (pure (convert vec, convert mat))
+            (bench "multiplyVectorByMatrixP" .
+             nf (uncurry multiplyVectorByMatrixP))
+        , env
+            (pure (convert vec, convert $ setComp Par mat))
+            (bench "multiplyVectorByMatrixP (Par)" .
+             nf (uncurry multiplyVectorByMatrixP))
         ]
     ]
