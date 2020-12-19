@@ -1,0 +1,76 @@
+name:                massiv-vector-matrix-multiply
+version:             0.1.0.0
+synopsis:            Optimized version of vector matrix multiplication
+description:         Please see the README on GitHub at <https://github.com/lehins/massiv-vector-matrix-multiply#readme>
+homepage:            https://github.com/lehins/massiv-vector-matrix-multiply
+license:             BSD3
+license-file:        LICENSE
+author:              Alexey Kuleshevich
+maintainer:          alexey@kuleshevi.ch
+copyright:           2020 Alexey Kuleshevich
+category:            Algorithms
+build-type:          Simple
+extra-source-files:  README.md
+                   , CHANGELOG.md
+cabal-version:       1.18
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Data.Massiv.Array.Numeric.Optimized
+
+  other-modules:
+  build-depends:       base >= 4.8 && < 5
+                     , massiv
+                     , scheduler
+                     , primitive
+
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wredundant-constraints
+  c-sources:           cbits/mult_vec_mat.c
+  cc-options:          -Wall -mavx -O3
+
+benchmark bench
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      bench
+  main-is:             Bench.hs
+  ghc-options:         -Wall
+                       -threaded
+                       -O2
+                       -with-rtsopts=-N
+  build-depends:       base
+                     , criterion
+                     , deepseq
+                     , massiv
+                     , massiv-vector-matrix-multiply
+                     , random
+                     , scheduler
+                     , vector
+  default-language:    Haskell2010
+
+test-suite tests
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      tests
+  main-is:             Main.hs
+  other-modules:       Spec
+                     , Test.Massiv.Array.Numeric.OptimizedSpec
+  build-depends:       base
+                     , bytestring
+                     , deepseq
+                     , massiv
+                     , massiv-vector-matrix-multiply
+                     , massiv-test
+                     , hspec
+                     , QuickCheck
+
+  default-language:   Haskell2010
+  ghc-options:        -Wall
+                      -fno-warn-orphans
+                      -threaded
+                      -with-rtsopts=-N
+
+source-repository head
+  type:     git
+  location: https://github.com/lehins/massiv-vector-matrix-multiply
