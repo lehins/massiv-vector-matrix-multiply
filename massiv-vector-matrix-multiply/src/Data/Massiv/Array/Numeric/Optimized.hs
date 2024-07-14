@@ -11,6 +11,7 @@ import Data.Massiv.Array.Unsafe as A
 import Data.Primitive.ByteArray
 import Foreign.Ptr
 import System.IO.Unsafe
+import Control.Exception (throw)
 
 multiplyVectorByMatrixS :: Vector S Float -> Matrix S Float -> Vector S Float
 multiplyVectorByMatrixS vec mat

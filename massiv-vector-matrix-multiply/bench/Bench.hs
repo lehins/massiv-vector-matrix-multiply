@@ -9,7 +9,7 @@ import Data.Massiv.Array.Numeric.Optimized
 import System.Random
 
 randomVectorMatrix ::
-     (Mutable r Ix2 Float, Mutable r Ix1 Float)
+     Manifest r Float
   => Sz2
   -> (Vector r Float, Matrix r Float)
 randomVectorMatrix sz@(Sz2 m _) =
